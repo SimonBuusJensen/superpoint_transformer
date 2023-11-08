@@ -73,6 +73,15 @@ This project was tested with:
 - CUDA 11.8 ([`torch-geometric`](https://pytorch-geometric.readthedocs.io/en/latest/install/installation.html) does not support CUDA 12.0 yet)
 - conda 23.3.1
 
+### Docker cmds
+```bash
+docker build -t superpoint-transformer:latest . # Build docker image from the Dockerfile
+
+docker run -it -v /path/to/local/data:/path/to/container/data superpoint-transformer:latests # Run the 
+
+docker start -ai "name-of-container" 
+```
+
 <br>
 
 ## 🏗  Installation
