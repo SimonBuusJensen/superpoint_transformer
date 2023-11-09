@@ -45,21 +45,3 @@ RUN rm /home/$USERNAME/miniconda.sh
 
 # Add conda to the path environment variable
 ENV PATH=/home/$USERNAME/miniconda3/bin:$PATH
-
-# Git clone the repository
-# RUN git clone git@github.com:SimonBuusJensen/superpoint_transformer.git
-
-# # Install the python environment using conda
-# # Make sure the script is executable
-# RUN chmod +x install.sh
-
-# # Execute the install.sh script
-# RUN ./install.sh
-
-# # Add conda to the path environment variable
-# ENV PATH=/home/simon/miniconda3/bin:$PATH
-
-# # Initialize conda for bash
-# RUN conda init bash 
-# RUN bash -c "source ${HOME}/.bashrc" 
-# RUN conda activate spt

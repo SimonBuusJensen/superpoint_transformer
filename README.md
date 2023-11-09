@@ -75,11 +75,11 @@ This project was tested with:
 
 ### Docker cmds
 ```bash
-docker build -t superpoint-transformer:latest . # Build docker image from the Dockerfile
+$ docker build -t superpoint-transformer:latest . # Build docker image from the Dockerfile
 
-docker run -it -v /path/to/local/data:/path/to/container/data superpoint-transformer:latests # Run the 
+$ docker run -it --name spt-gpu --gpus all -v /home/simon/data/:/home/simon/data/ -v .:/home/simon/superpoint-transformer  # Run the docker iamge 
 
-docker start -ai "name-of-container" 
+$ docker start -ai "name-of-container" 
 ```
 
 <br>
