@@ -4,7 +4,7 @@ echo
 echo
 echo "⭐ Installing FRNN"
 echo
-# git clone --recursive https://github.com/lxxue/FRNN.git src/dependencies/FRNN
+git clone --recursive https://github.com/lxxue/FRNN.git src/dependencies/FRNN
 
 # install a prefix_sum routine first
 cd src/dependencies/FRNN/external/prefix_sum
@@ -28,8 +28,8 @@ echo
 echo "⭐ Installing Parallel Cut-Pursuit"
 echo
 # Clone parallel-cut-pursuit and grid-graph repos
-# git clone -b improve_merge https://gitlab.com/1a7r0ch3/parallel-cut-pursuit.git src/dependencies/parallel_cut_pursuit
-# git clone https://gitlab.com/1a7r0ch3/grid-graph.git src/dependencies/grid_graph
+git clone -b improve_merge https://gitlab.com/1a7r0ch3/parallel-cut-pursuit.git src/dependencies/parallel_cut_pursuit
+git clone https://gitlab.com/1a7r0ch3/grid-graph.git src/dependencies/grid_graph
 
 # Compile the projects
 python scripts/setup_dependencies.py build_ext
