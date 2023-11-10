@@ -67,7 +67,7 @@ v_edge_hf: []  # vertical edge features used for training
 # all the pre_transforms
 
 # Based on SPG: https://arxiv.org/pdf/1711.09869.pdf
-voxel: 0.03
+voxel: 0.04 # Changed from 0.03 -> 0.04 to reduce memory usage
 knn: 45
 knn_r: 2
 knn_step: -1
