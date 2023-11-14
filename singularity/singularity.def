@@ -17,6 +17,20 @@ From: nvidia/cuda:11.8.0-devel-ubuntu20.04
         openssh-client \
         screen
 
+    # Create working directory
+    mkdir -p /home/simon
+    cd /home/simon
+
+    # Install Miniconda
+    wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py38_23.3.1-0-Linux-x86_64.sh -O /home/simon/miniconda.sh
+    chmod +x /home/simon/miniconda.sh
+    /home/simon/miniconda.sh -b -p /home/simon/miniconda3
+
+    # Create and activate conda environment
+    . /home/simon/miniconda3/bin/activate
+    conda create --name spt python=3.8
+    conda activate spt
+
 %runscript
     echo "Superpoint Transformer environment is ready."
 
