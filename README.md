@@ -77,7 +77,7 @@ This project was tested with:
 ```bash
 $ docker build -t superpoint-transformer:latest . # Build docker image from the Dockerfile
 
-$ docker run -it --name spt-gpu --gpus all -v /home/simon/data/:/home/simon/data/ -v .:/home/simon/superpoint-transformer  # Run the docker iamge 
+$ docker run -it --name spt-gpu --gpus all --ipc=host -v /home/simon/data/:/home/simon/data/ -v .:/home/simon/superpoint-transformer superpoint-transformer:latest  # Run the docker iamge 
 
 $ docker start -ai "name-of-container" 
 ```

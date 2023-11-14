@@ -1,0 +1,38 @@
+Bootstrap: docker
+From: nvcr.io/nvidia/pytorch:21.05-py3
+
+%files
+    /home/create.aau.dk/fd78da/projects/PHD-RESEARCH-3D-point-segmentation/repos/PointNeXtSimon PointNeXtSimon
+
+%post
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get -y -qq update && apt-get -y -qq install --no-install-recommends apt-utils
+    apt-get install build-essential
+    apt-get -y install screen
+    apt-get -y install libeigen3-dev
+
+    export TORCH_CUDA_ARCH_LIST="7.0;7.5;8.0;8.6"
+    pip install -q -r PointNeXtSimon/requirements.txt
+    pip install torch==1.10.1+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+    pip install torch-scatter -f https://data.pyg.org/whl/torch-1.10.1+cu113.html
+
+    export DEBIAN_FRONTEND=dialog
+    bash -c "cd PointNeXtSimon/openpoints/cpp/pointnet2_batch \
+    && python -m pip install . --prefix= \
+    && cd ../../"
+
+%runscript
+    echo "pytorch singularity container created"
+
+%help
+    - This definition file is used for creating a singularity container with pytorch and cuda 11.3
+    Docker image explanation: https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/rel_21-05.html#rel_21-05
+    Torch cuda arch list explanation:
+    - 7.0: V100
+    - 7.5: T4
+    - 8.0: A100
+    - 8.6: A10
+    This should support the following GPUs: V100, T4, A100, A10 which are available on CLAAUDIA (See CLAAUDIA GPU list: https://aicloud-docs.claaudia.aau.dk/introduction/)
+    See list of cuda ARCH: https://developer.nvidia.com/cuda-gpus
+
+
