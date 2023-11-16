@@ -14,17 +14,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     openssh-client \
     screen 
 
-WORKDIR /home/simon
-
-COPY . .
+ENV USERNAME=simon
+WORKDIR /home/$USERNAME
 
 # Download and install Miniconda
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py38_23.3.1-0-Linux-x86_64.sh -O /home/simon/miniconda.sh
-RUN chmod +x /home/simon/miniconda.sh
-RUN /home/simon/miniconda.sh -b -p /home/simon/miniconda3
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py38_23.3.1-0-Linux-x86_64.sh -O /home/$USERNAME/miniconda.sh
+RUN chmod +x /home/$USERNAME/miniconda.sh
+RUN /home/$USERNAME/miniconda.sh -b -p /home/$USERNAME/miniconda3
 
 # Add conda to the path environment variable
-ENV PATH=/home/simon/miniconda3/bin:$PATH
+ENV PATH=/home/$USERNAME/miniconda3/bin:$PATH
 
 # Create the anaconda environment
 RUN conda create --name spt python=3.8
@@ -54,5 +53,8 @@ RUN pip install rich
 RUN pip install torch_tb_profiler
 RUN pip install wandb
 RUN pip install gdown
+
+# CPY the install_external_dependencies.sh script to the container
+COPY install_external_dependencies.sh /home/$USERNAME/install_external_dependencies.sh
 
 RUN ./install_external_dependencies.sh
