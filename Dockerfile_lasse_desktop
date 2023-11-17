@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     openssh-client \
     screen 
 
-ENV USERNAME=simon
+ENV USERNAME=lasse
 WORKDIR /home/$USERNAME
 
 # Download and install Miniconda
@@ -55,6 +55,6 @@ RUN pip install wandb
 RUN pip install gdown
 
 # CPY the install_external_dependencies.sh script to the container
-COPY install_external_dependencies.sh /home/$USERNAME/install_external_dependencies.sh
+# COPY install_external_dependencies.sh /home/$USERNAME/install_external_dependencies.sh
 
-RUN ./install_external_dependencies.sh
+# RUN ./install_external_dependencies.sh

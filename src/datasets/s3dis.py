@@ -140,7 +140,7 @@ def read_s3dis_room(
         # This is necessary because an unknown 'staris' class can be
         # found in some rooms
         label = OBJECT_LABEL.get(object_class, OBJECT_LABEL['clutter'])
-        points = pd.read_csv(path, sep=' ', header=None).values
+        points = pd.read_csv(path, sep=' ', header=None, low_memory=False).values
 
         if xyz:
             xyz_list.append(
