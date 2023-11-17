@@ -5,6 +5,9 @@ From: nvidia/cuda:11.8.0-devel-ubuntu20.04
     export DEBIAN_FRONTEND=noninteractive
     export PATH=/home/simon/miniconda3/bin:$PATH
 
+%files
+    /home/create.aau.dk/fd78da/projects/superpoint_transformer /home/simon/superpoint_transformer
+
 %post
     # Update and install dependencies
     apt-get update
@@ -40,10 +43,9 @@ From: nvidia/cuda:11.8.0-devel-ubuntu20.04
     pip install plyfile h5py colorhash seaborn numba pytorch-lightning pyrootutils hydra-core --upgrade hydra-colorlog hydra-submitit-launcher rich torch_tb_profiler wandb gdown
 
     # External dependencies script
-    ./install_external_dependencies.sh
+    chmod +x /home/simon/superpoint_transformer/install_external_dependencies.sh
+    ./home/simon/superpoint_transformer/install_external_dependencies.sh
     
-
-
 
 %runscript
     echo "Superpoint Transformer environment is ready."
