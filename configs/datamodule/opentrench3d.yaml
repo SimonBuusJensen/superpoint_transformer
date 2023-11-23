@@ -1,21 +1,15 @@
 defaults:
   - default.yaml
 
-_target_: src.datamodules.s3dis.S3DISDataModule
+_target_: src.datamodules.opentrench3d.OpenTrench3DDataModule
 
 dataloader:
     batch_size: 1
 
 # These parameters are not actually used by the DataModule, but are used
 # here to facilitate model parameterization with config interpolation
-num_classes: 13
-fold: 5
-trainval: True
-val_on_test: True
-pc_tiling: null
-in_memory: False  # set to True to load all processed S3DIS in RAM. This may accelerate training but CAREFUL not to modify the data in place !
-
-# Features that will be computed, saved, loaded for points and segments
+num_classes: 2
+test_fold: 4
 
 # point features used for the partition
 partition_hf:
@@ -46,6 +40,7 @@ segment_mean_hf: []
 # saved with "std_" prefix
 segment_std_hf: []
 
+
 # horizontal edge features used for training
 edge_hf:
   - 'mean_off'
@@ -63,8 +58,6 @@ edge_hf:
 
 v_edge_hf: []  # vertical edge features used for training
 
-# Parameters declared here to facilitate tuning configs without copying
-# all the pre_transforms
 
 # Based on SPG: https://arxiv.org/pdf/1711.09869.pdf
 voxel: 0.03 # Changed from 0.03 -> 0.04 to reduce memory usage
@@ -88,6 +81,7 @@ graph_se_min: 20
 graph_cycles: 3
 graph_margin: 0.2
 graph_chunk: [1e6, 1e5, 1e5]  # reduce if CUDA memory errors
+
 
 # Batch construction parameterization
 sample_segment_ratio: 0.1
