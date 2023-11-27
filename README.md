@@ -75,9 +75,13 @@ This project was tested with:
 
 ### Docker cmds
 ```bash
-$ docker build -t superpoint-transformer . # Build docker image from the Dockerfile
+$ docker build -t spt . # Build docker image from the Dockerfile
 
-$ docker run -it --name spt --gpus all --ipc=host -v /home/$USER/data/:/home/$USER/data/ -v .:/home/$USER/superpoint-transformer superpoint-transformer:latest  # Run the docker iamge 
+$ docker run -it --name spt --gpus all --ipc=host \
+-v /home/simon/aau/open-trench-3d:/home/$USER/open-trench-3d \
+-v /home/simon/.ssh:/root/.ssh \
+-v /home/simon/data:/home/simon/data \
+spt:latest  # Run the docker iamge 
 
 $ docker start -ai "name-of-container" 
 ```

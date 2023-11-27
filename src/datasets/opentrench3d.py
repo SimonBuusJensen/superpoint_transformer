@@ -2,12 +2,27 @@ import os
 import os.path as osp
 import logging
 from src.datasets import BaseDataset
+from src.data import Data
 from src.datasets.opentrench3d_config import *
 
 DIR = osp.dirname(osp.realpath(__file__))
 log = logging.getLogger(__name__)
 
 __all__ = ['OpenTrench3D']
+
+def read_opentrench_tile(filepath, xyz=True, rgb=True):
+    data = Data()
+    with open(filepath, "rb") as f:
+        # Read from .npy file
+        tile = np.load(f, allow_pickle=True).item()
+        
+        # Read xyz from column 0, 1, 2
+        data.pos = tile[:, :3].astype(np.float32)
+        
+        # Read rgb from column 3, 4, 5
+        data.rgb = tile[:, 3:6].astype(np.uint8)
+
+    return tile
 
 ########################################################################
 #                           OpenTrench3D                               #
@@ -33,7 +48,7 @@ class OpenTrench3D(BaseDataset):
         want to run in CPU-based DataLoaders
     """
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, val_mixed_in_train=False, **kwargs)
+        super().__init__(*args, test_mixed_in_val=True, **kwargs)
     
     @property
     def class_names(self):
@@ -79,7 +94,12 @@ class OpenTrench3D(BaseDataset):
     def read_single_raw_cloud(self, raw_cloud_path):
         """Read a single raw cloud and return a Data object, ready to
         be passed to `self.pre_transform`.
-
         Read content from .npy file
         """
-        return np.load(raw_cloud_path, allow_pickle=True).item()
+        raw_cloud_path = raw_cloud_path.replace('.ply', '.npy')
+        return read_opentrench_tile(
+            raw_cloud_path, intensity=True, semantic=True, instance=False,
+            remap=True)
+    
+    def download_dataset(self):
+        return None

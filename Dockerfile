@@ -12,11 +12,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     nano \
     openssh-client \
-    screen 
+    screen
 
 WORKDIR /home/simon
-
-COPY . .
 
 # Download and install Miniconda
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py38_23.3.1-0-Linux-x86_64.sh -O /home/simon/miniconda.sh
@@ -55,4 +53,4 @@ RUN pip install torch_tb_profiler
 RUN pip install wandb
 RUN pip install gdown
 
-RUN ./install_external_dependencies.sh
+# RUN ./install_external_dependencies.sh

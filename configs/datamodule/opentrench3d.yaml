@@ -10,6 +10,8 @@ dataloader:
 # here to facilitate model parameterization with config interpolation
 num_classes: 2
 test_fold: 5
+val_on_test: True
+in_memory: False 
 
 # point features used for the partition
 partition_hf:
