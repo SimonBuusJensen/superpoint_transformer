@@ -33,7 +33,7 @@ class OpenTrench3D(BaseDataset):
         want to run in CPU-based DataLoaders
     """
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, val_mixed_in_train=True, **kwargs)
+        super().__init__(*args, val_mixed_in_train=False, **kwargs)
     
     @property
     def class_names(self):
@@ -62,9 +62,9 @@ class OpenTrench3D(BaseDataset):
             `{'train': [...], 'val': [...], 'test': [...]}`
         """
         return {
-            'train': ['Area_1', 'Area_2', 'Area_3', 'Area_5'],
-            'val': ['Area_4'],
-            'test': ['Area_4']}
+            'train': ['Area_1', 'Area_2', 'Area_3', 'Area_4'],
+            'val': ['Area_5'],
+            'test': ['Area_5']}
     
     @property
     def raw_file_structure(self):

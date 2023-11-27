@@ -9,7 +9,7 @@ dataloader:
 # These parameters are not actually used by the DataModule, but are used
 # here to facilitate model parameterization with config interpolation
 num_classes: 2
-test_fold: 4
+test_fold: 5
 
 # point features used for the partition
 partition_hf:
