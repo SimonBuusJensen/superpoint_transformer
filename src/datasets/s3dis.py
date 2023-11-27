@@ -278,7 +278,9 @@ class S3DIS(BaseDataset):
     @property
     def all_base_cloud_ids(self):
         """Dictionary holding lists of clouds ids, for each
-        stage.
+        stage. lists of clouds ids, for each
+        stage. Unlike all_base_cloud_ids, these ids take into account
+        the clouds tiling, if any.
 
         The following structure is expected:
             `{'train': [...], 'val': [...], 'test': [...]}`

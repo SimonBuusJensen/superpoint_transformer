@@ -1,11 +1,13 @@
 import os
-import logging
 import os.path as osp
+import logging
 from src.datasets import BaseDataset
 from src.datasets.opentrench3d_config import *
 
 DIR = osp.dirname(osp.realpath(__file__))
 log = logging.getLogger(__name__)
+
+__all__ = ['OpenTrench3D']
 
 ########################################################################
 #                           OpenTrench3D                               #
@@ -30,8 +32,7 @@ class OpenTrench3D(BaseDataset):
         augmentations should be, as well as any Transform you do not
         want to run in CPU-based DataLoaders
     """
-    def __init__(self, *args, test_fold=4, **kwargs):
-        self.test_fold = test_fold
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, val_mixed_in_train=True, **kwargs)
     
     @property
@@ -61,9 +62,9 @@ class OpenTrench3D(BaseDataset):
             `{'train': [...], 'val': [...], 'test': [...]}`
         """
         return {
-            'train': [f'Area_{i}' for i in range(1, 6) if i != self.self],
-            'val': [f'Area_{i}' for i in range(1, 6) if i != self.self],
-            'test': [f'Area_{self.test_fold}']}
+            'train': ['Area_1', 'Area_2', 'Area_3', 'Area_5'],
+            'val': ['Area_4'],
+            'test': ['Area_4']}
     
     @property
     def raw_file_structure(self):
@@ -74,3 +75,11 @@ class OpenTrench3D(BaseDataset):
                     └── Area_{{i_area:1>8}}_Site_{{i_site:1>50}}.npy
                     └── ...
                 """
+
+    def read_single_raw_cloud(self, raw_cloud_path):
+        """Read a single raw cloud and return a Data object, ready to
+        be passed to `self.pre_transform`.
+
+        Read content from .npy file
+        """
+        return np.load(raw_cloud_path, allow_pickle=True).item()
