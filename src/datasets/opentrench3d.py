@@ -1,4 +1,5 @@
 import os
+import torch
 import os.path as osp
 import logging
 from src.datasets import BaseDataset
@@ -10,19 +11,37 @@ log = logging.getLogger(__name__)
 
 __all__ = ['OpenTrench3D']
 
-def read_opentrench_tile(filepath, xyz=True, rgb=True):
+def read_opentrench_tile(filepath, is_npy=True):
     data = Data()
+    
+    fn = osp.basename(filepath)
+    if is_npy:
+        fn = fn.replace("ply", "npy")  
+    dir_name = osp.dirname(filepath) # /home/.../
+    area_str = "_".join(fn.split("_")[0:2]) # Area_1_Site_4.npy -> Area_1
+    filepath = osp.join(dir_name, area_str, fn) # /home/.../Area_1/Area_1_Site_4.npy
+    
     with open(filepath, "rb") as f:
-        # Read from .npy file
-        tile = np.load(f, allow_pickle=True).item()
+        
+        
+        
+        # Load the npy file
+        points = np.load(f)
         
         # Read xyz from column 0, 1, 2
-        data.pos = tile[:, :3].astype(np.float32)
+        pos = torch.from_numpy(points[:, :3].astype(np.float32))
         
         # Read rgb from column 3, 4, 5
-        data.rgb = tile[:, 3:6].astype(np.uint8)
-
-    return tile
+        rgb = torch.from_numpy(points[:, 3:6].astype(np.uint8))
+        
+        y = torch.from_numpy(points[:, 6].astype(np.int64))
+        
+        data = Data(pos=pos, rgb=rgb, y=y)
+        
+        # data.is_val = torch.ones(data.num_nodes, dtype=torch.bool) if "Area_5" in fn else torch.zeros(data.num_nodes, dtype=torch.bool)
+        # print(filepath, data.is_val)
+    
+    return data
 
 ########################################################################
 #                           OpenTrench3D                               #
@@ -77,9 +96,10 @@ class OpenTrench3D(BaseDataset):
             `{'train': [...], 'val': [...], 'test': [...]}`
         """
         return {
-            'train': ['Area_1', 'Area_2', 'Area_3', 'Area_4'],
-            'val': ['Area_5'],
-            'test': ['Area_5']}
+            'train': TRENCHES['Area_1'],
+            'val': TRENCHES['Area_4'],
+            'test': TRENCHES['Area_5']
+        }
     
     @property
     def raw_file_structure(self):
@@ -96,10 +116,7 @@ class OpenTrench3D(BaseDataset):
         be passed to `self.pre_transform`.
         Read content from .npy file
         """
-        raw_cloud_path = raw_cloud_path.replace('.ply', '.npy')
-        return read_opentrench_tile(
-            raw_cloud_path, intensity=True, semantic=True, instance=False,
-            remap=True)
+        return read_opentrench_tile(raw_cloud_path)
     
     def download_dataset(self):
         return None

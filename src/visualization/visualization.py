@@ -1,12 +1,17 @@
+import sys
+sys.path.append('/home/simon/open-trench-3d/repos/superpoint_transformer/')
+
 import torch
 import numpy as np
 import os.path as osp
 import plotly.graph_objects as go
+from torch_scatter import scatter_mean
 from src.data import Data, NAG, Cluster
 from src.transforms import GridSampling3D, SaveNodeIndex
 from src.utils import fast_randperm, to_trimmed
-from torch_scatter import scatter_mean
 from src.utils.color import *
+
+
 
 
 def visualize_3d(
@@ -778,3 +783,11 @@ def show(
         return out_3d
 
     return
+
+
+if __name__ == "__main__":
+    
+    path = "/home/simon/data/opentrench3d/processed/train/6b8f1264f8899f048cc8a4006163e6ba/Area_1_Site_1.h5"
+    # path = "/home/simon/data/opentrench3d/processed/train/6b8f1264f8899f048cc8a4006163e6ba/Area_1_Site_1.h5"
+    nag_object = NAG.load(path)
+    show(nag_object)

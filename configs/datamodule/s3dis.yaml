@@ -14,6 +14,7 @@ trainval: True
 val_on_test: True
 pc_tiling: null
 in_memory: False  # set to True to load all processed S3DIS in RAM. This may accelerate training but CAREFUL not to modify the data in place !
+mini: True
 
 # Features that will be computed, saved, loaded for points and segments
 

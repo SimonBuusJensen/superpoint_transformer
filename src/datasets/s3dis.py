@@ -174,6 +174,7 @@ def read_s3dis_room(
     if is_val:
         data.is_val = torch.ones(data.num_nodes, dtype=torch.bool) * (
                 osp.basename(room_dir) in VALIDATION_ROOMS)
+        print(room_dir, data.is_val)
 
     # Exit here if canonical orientations are not needed
     if not xyz_room and not align:
